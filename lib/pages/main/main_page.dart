@@ -4,19 +4,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/bottom_tab.dart';
 import '../../routes/bottom_tab.dart';
 
-class MainPage extends StatefulHookConsumerWidget {
+class MainPage extends HookConsumerWidget {
   const MainPage({super.key});
 
-  static const path = '/';
+  static const path = '/foo/';
   static const name = 'MainPage';
 
   @override
-  ConsumerState<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends ConsumerState<MainPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentBottomTab = ref.watch(bottomTabStateProvider);
     return Stack(
       children: <Widget>[
