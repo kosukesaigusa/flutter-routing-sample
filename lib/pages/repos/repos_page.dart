@@ -9,8 +9,10 @@ import '../../services/search_repos.dart';
 import '../../utils/extensions/build_context.dart';
 import '../../utils/extensions/int.dart';
 import '../../utils/timer.dart';
+import '../../widgets/pager.dart';
 import '../../widgets/shimmer.dart';
 
+///
 class ReposPage extends HookConsumerWidget {
   const ReposPage({super.key});
 
@@ -69,8 +71,8 @@ class _SearchRepoTextFieldState extends ConsumerState<SearchRepoTextField> {
       onChanged: (q) => debounce.run(
         () async {
           ref.read(searchWordStateProvider.notifier).update((state) => q);
-          ref.read(isSearchingStateProvider.notifier).update((state) => true);
-          await ref.read(searchReposServiceProvider).fetchRepos();
+          ref.read(searchPageStateProvider.notifier).update((state) => 1);
+          ref.read(searchReposServiceProvider).refresh();
         },
       ),
       maxLines: 1,
@@ -98,9 +100,12 @@ class RepoItemsWidget extends HookConsumerWidget {
                 loading: () => _shimmerWidget,
                 data: (searchRepoResponse) {
                   final repos = searchRepoResponse.repos;
+                  final maxPage =
+                      searchRepoResponse.totalCount ~/ ref.watch(searchPerPageStateProvider) + 1;
                   return ListView.builder(
+                    controller: ref.watch(repoItemsScrollControllerProvider),
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    itemCount: repos.length + 1,
+                    itemCount: repos.length + 2,
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return Padding(
@@ -116,13 +121,27 @@ class RepoItemsWidget extends HookConsumerWidget {
                               ),
                               const Gap(4),
                               Text(
-                                'Total: ${searchRepoResponse.totalCount.withComma}',
+                                'Total: ${searchRepoResponse.totalCount.withComma} '
+                                '(page ${ref.watch(searchPageStateProvider)} out of $maxPage)',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: context.bodySmall,
                               ),
                             ],
                           ),
+                        );
+                      } else if (index == repos.length + 1) {
+                        return PagerWidget(
+                          canShowPreviousPage: ref.watch(searchPageStateProvider) > 1,
+                          canShowNextPage: ref.watch(searchPageStateProvider) < maxPage,
+                          showPreviousPage: () async {
+                            ref.read(searchPageStateProvider.notifier).update((state) => state - 1);
+                            ref.read(searchReposServiceProvider).refresh();
+                          },
+                          showNextPage: () async {
+                            ref.read(searchPageStateProvider.notifier).update((state) => state + 1);
+                            ref.read(searchReposServiceProvider).refresh();
+                          },
                         );
                       } else {
                         return RepoItemWidget(repo: repos[index - 1]);
@@ -134,10 +153,27 @@ class RepoItemsWidget extends HookConsumerWidget {
     );
   }
 
+  ///
   Widget get _shimmerWidget => ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        itemCount: 10,
-        itemBuilder: (_, __) => const RepoItemShimmerWidget(),
+        itemCount: 11,
+        itemBuilder: (_, index) {
+          if (index == 0) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  ShimmerWidget.rectangular(width: 160, height: 12),
+                  Gap(8),
+                  ShimmerWidget.rectangular(width: 100, height: 12),
+                ],
+              ),
+            );
+          } else {
+            return const RepoItemShimmerWidget();
+          }
+        },
       );
 }
 

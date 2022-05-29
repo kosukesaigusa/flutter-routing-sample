@@ -74,20 +74,20 @@ class _RootScaffoldWidgetState extends ConsumerState<RootScaffoldWidget> {
                     labelSmall:
                         context.textTheme.labelSmall!.copyWith(color: Colors.black54, fontSize: 12),
                   ),
-                  textButtonTheme: TextButtonThemeData(
-                    style: ButtonStyle(
-                      textStyle: MaterialStateProperty.all<TextStyle>(
-                        const TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                      backgroundColor: MaterialStateProperty.all<Color>(ThemeData().primaryColor),
-                      overlayColor: MaterialStateProperty.all<Color>(Colors.white12),
-                      // minimumSize: MaterialStateProperty.all<Size>(const Size(double.infinity, 48)),
-                    ),
-                  ),
-                  cardTheme: const CardTheme(
-                    margin: EdgeInsets.all(0),
-                  ),
+                  // textButtonTheme: TextButtonThemeData(
+                  //   style: ButtonStyle(
+                  //     textStyle: MaterialStateProperty.all<TextStyle>(
+                  //       const TextStyle(color: Colors.white, fontSize: 16),
+                  //     ),
+                  //     foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                  //     backgroundColor: MaterialStateProperty.all<Color>(ThemeData().primaryColor),
+                  //     overlayColor: MaterialStateProperty.all<Color>(Colors.white12),
+                  //     // minimumSize: MaterialStateProperty.all<Size>(const Size(double.infinity, 48)),
+                  //   ),
+                  // ),
+                  // cardTheme: const CardTheme(
+                  //   margin: EdgeInsets.all(0),
+                  // ),
                 ),
               ),
               // if (ref.watch(overlayLoadingProvider)) const OverlayLoadingWidget(),
