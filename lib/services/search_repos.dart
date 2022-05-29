@@ -37,7 +37,7 @@ class SearchReposService {
     _ref.refresh(searchReposFutureProvider);
   }
 
-  /// ページ切替時に ListView の上までスクロールする
+  ///
   void _animateToTop() {
     final sc = _ref.read(repoItemsScrollControllerProvider);
     if (!sc.hasClients) {
