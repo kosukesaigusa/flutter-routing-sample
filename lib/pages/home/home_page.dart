@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../services/scaffold_messenger.dart';
 import '../todo_detail/todo_detail_page.dart';
 import '../todos/todos_page.dart';
 
@@ -40,6 +41,11 @@ class HomePage extends HookConsumerWidget {
               onPressed: () => context.push('/random/path/foo/bar'),
               child: const Text('Go to NotFoundPage'),
             ),
+            ElevatedButton(
+              onPressed: () =>
+                  ref.read(scaffoldMessengerServiceProvider).showSnackBar('This is a SnackBar.'),
+              child: const Text('Show SnackBar'),
+            )
           ],
         ),
       ),
