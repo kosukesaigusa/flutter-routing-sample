@@ -18,7 +18,8 @@ class HeaderInterceptor extends Interceptor {
     // キー・バリューを追加する。
     options.headers[referrer] = overwriteUrl ?? options.baseUrl;
     options.headers['Origin'] = options.baseUrl;
-    options.headers['Accept'] = 'application/json';
+    // options.headers['Accept'] = 'application/json';
+    options.headers['Accept'] = 'application/vnd.github.v3+json';
     options.headers['User-Agent'] = await userAgent;
     return handler.next(options);
   }
