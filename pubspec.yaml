@@ -28,6 +28,7 @@ dependencies:
   json_annotation:
   package_info_plus:
   path_provider:
+  shimmer:
 
 dev_dependencies:
   build_runner:

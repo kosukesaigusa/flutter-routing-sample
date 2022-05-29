@@ -5,6 +5,6 @@ import '../services/app_device_info.dart';
 /// flutter-routing-sample/1.0.0 (10000) iOS iPhone
 /// flutter-routing-sample/2.0.0 (10000) Android Redmi Note 9S
 Future<String> get userAgent async {
-  final i = await getDeviceInfo();
+  final i = await getAppDeviceInfo();
   return 'flutter-routing-sample/${i.version} (${i.buildNumber}) ${i.platform} ${i.deviceModel}';
 }
