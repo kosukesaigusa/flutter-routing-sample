@@ -100,12 +100,12 @@ class RepoItemsWidget extends HookConsumerWidget {
                       searchRepoResponse.totalCount ~/ ref.watch(searchPerPageStateProvider) + 1;
                   return ListView.builder(
                     controller: ref.watch(repoItemsScrollControllerProvider),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     itemCount: repos.length + 2,
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
+                          padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -178,66 +178,69 @@ class RepoItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const FaIcon(FontAwesomeIcons.github),
-          const Gap(16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: () async {},
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const FaIcon(FontAwesomeIcons.github),
+            const Gap(16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    repo.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.titleLarge,
+                  ),
+                  const Gap(4),
+                  Text(
+                    repo.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.bodySmall,
+                  ),
+                  Text(
+                    'Updated: ${repo.updatedAt.toString().substring(0, 10)}',
+                    style: context.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+            const Gap(8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  repo.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.titleLarge,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.star, size: 12),
+                    const Gap(4),
+                    Text(
+                      repo.starGazersCount.withComma,
+                    ),
+                  ],
                 ),
                 const Gap(4),
-                Text(
-                  repo.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.bodySmall,
-                ),
-                Text(
-                  'Updated: ${repo.updatedAt.toString().substring(0, 10)}',
-                  style: context.bodySmall,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const FaIcon(FontAwesomeIcons.codeFork, size: 12),
+                    const Gap(4),
+                    Text(
+                      repo.forksCount.withComma,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          const Gap(8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(Icons.star, size: 12),
-                  const Gap(4),
-                  Text(
-                    repo.starGazersCount.withComma,
-                  ),
-                ],
-              ),
-              const Gap(4),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const FaIcon(FontAwesomeIcons.codeFork, size: 12),
-                  const Gap(4),
-                  Text(
-                    repo.forksCount.withComma,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -250,7 +253,7 @@ class RepoItemShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
