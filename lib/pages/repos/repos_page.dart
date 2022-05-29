@@ -69,11 +69,7 @@ class _SearchRepoTextFieldState extends ConsumerState<SearchRepoTextField> {
     return TextField(
       controller: _textEditingController,
       onChanged: (q) => debounce.run(
-        () async {
-          ref.read(searchWordStateProvider.notifier).update((state) => q);
-          ref.read(searchPageStateProvider.notifier).update((state) => 1);
-          ref.read(searchReposServiceProvider).refresh();
-        },
+        () => ref.read(searchReposServiceProvider).updateSearchWord(q),
       ),
       maxLines: 1,
       decoration: const InputDecoration(
@@ -134,14 +130,8 @@ class RepoItemsWidget extends HookConsumerWidget {
                         return PagerWidget(
                           canShowPreviousPage: ref.watch(searchPageStateProvider) > 1,
                           canShowNextPage: ref.watch(searchPageStateProvider) < maxPage,
-                          showPreviousPage: () async {
-                            ref.read(searchPageStateProvider.notifier).update((state) => state - 1);
-                            ref.read(searchReposServiceProvider).refresh();
-                          },
-                          showNextPage: () async {
-                            ref.read(searchPageStateProvider.notifier).update((state) => state + 1);
-                            ref.read(searchReposServiceProvider).refresh();
-                          },
+                          showPreviousPage: ref.read(searchReposServiceProvider).showPreviousPage,
+                          showNextPage: ref.read(searchReposServiceProvider).showNextPage,
                         );
                       } else {
                         return RepoItemWidget(repo: repos[index - 1]);

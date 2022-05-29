@@ -10,12 +10,29 @@ final searchReposServiceProvider = Provider.autoDispose(SearchReposService.new);
 class SearchReposService {
   SearchReposService(this._ref);
 
-  // final Reader _read;
   final ProviderRef _ref;
 
   ///
-  void refresh() {
+  void updateSearchWord(String q) {
     _ref.read(isSearchingStateProvider.notifier).update((state) => true);
+    _ref.read(searchWordStateProvider.notifier).update((state) => q);
+    _ref.read(searchPageStateProvider.notifier).update((state) => 1);
+    _animateToTop();
+    _ref.refresh(searchReposFutureProvider);
+  }
+
+  ///
+  void showPreviousPage() {
+    _ref.read(isSearchingStateProvider.notifier).update((state) => true);
+    _ref.read(searchPageStateProvider.notifier).update((state) => state - 1);
+    _animateToTop();
+    _ref.refresh(searchReposFutureProvider);
+  }
+
+  ///
+  void showNextPage() {
+    _ref.read(isSearchingStateProvider.notifier).update((state) => true);
+    _ref.read(searchPageStateProvider.notifier).update((state) => state + 1);
     _animateToTop();
     _ref.refresh(searchReposFutureProvider);
   }
