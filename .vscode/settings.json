@@ -1,5 +1,6 @@
 {
   "dart.flutterSdkPath": ".fvm/flutter_sdk",
   "dart.sdkPath": ".fvm/flutter_sdk/bin/cache/dart-sdk",
-  "dart.runPubGetOnPubspecChanges": false
+  "dart.runPubGetOnPubspecChanges": false,
+  "cSpell.words": []
 }

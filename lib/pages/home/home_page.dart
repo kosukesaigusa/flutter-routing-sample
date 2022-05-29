@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+import '../todo_detail/todo_detail_page.dart';
+import '../todos/todos_page.dart';
 
-  final String title;
+class HomePage extends HookConsumerWidget {
+  const HomePage({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  static const path = '/';
+  static const name = 'HomePage';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final counter = useState(0);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -32,14 +25,26 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              '${counter.value}',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            TextButton(
+              onPressed: () => context.push(TodosPage.path),
+              child: const Text('Go to Todos page'),
+            ),
+            TextButton(
+              onPressed: () => context.push(TodoDetailPage.path),
+              child: const Text('Go to Todo detail page'),
+            ),
+            TextButton(
+              onPressed: () => context.push('/random/path/foo/bar'),
+              child: const Text('Go to NotFoundPage'),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => counter.value++,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
