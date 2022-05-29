@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 
-import 'pages/home/home_page.dart';
+import 'routes/route.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      key: UniqueKey(),
+      debugShowCheckedModeBanner: false,
+      title: 'flutter-routing-sample',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routeInformationParser: goRouter.routeInformationParser,
+      routerDelegate: goRouter.routerDelegate,
+      builder: (context, child) {
+        return MediaQuery(
+          // 端末依存のフォントスケールを 1 に固定する
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+          child: child!,
+        );
+      },
     );
   }
 }
