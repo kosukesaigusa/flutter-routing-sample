@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import '../pages/main/main_page.dart';
 import '../pages/not_found/not_found_page.dart';
+import '../pages/repo_detail/repo_detail_page.dart';
 import '../pages/repos/repos_page.dart';
 import '../pages/settings/settings_page.dart';
 import '../pages/todo_detail/todo_detail_page.dart';
@@ -21,6 +22,10 @@ final goRouter = GoRouter(
     GoRoute(
       path: SettingsPage.path,
       builder: (context, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      path: RepoDetailPage.path,
+      builder: (context, state) => const RepoDetailPage(),
     ),
     GoRoute(
       path: TodosPage.path,

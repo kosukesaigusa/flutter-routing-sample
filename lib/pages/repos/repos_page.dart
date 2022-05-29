@@ -13,14 +13,25 @@ import '../../widgets/pager.dart';
 import '../../widgets/shimmer.dart';
 
 ///
-class ReposPage extends HookConsumerWidget {
+class ReposPage extends StatefulHookConsumerWidget {
   const ReposPage({super.key});
 
   static const path = '/repos';
   static const name = 'ReposPage';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ReposPage> createState() => _ReposPageState();
+}
+
+class _ReposPageState extends ConsumerState<ReposPage> {
+  @override
+  void dispose() {
+    debugPrint('disposed');
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Repos'),
@@ -39,6 +50,34 @@ class ReposPage extends HookConsumerWidget {
     );
   }
 }
+
+///
+// class ReposPage extends HookConsumerWidget {
+//   const ReposPage({super.key});
+
+//   static const path = '/repos';
+//   static const name = 'ReposPage';
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Repos'),
+//       ),
+//       body: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: const [
+//           Gap(16),
+//           Padding(
+//             padding: EdgeInsets.symmetric(horizontal: 16),
+//             child: SearchRepoTextField(),
+//           ),
+//           RepoItemsWidget(),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 ///
 class SearchRepoTextField extends StatefulHookConsumerWidget {
