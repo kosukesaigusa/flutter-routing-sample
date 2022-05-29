@@ -9,6 +9,9 @@ environment:
 dependencies:
   connectivity_plus:
   cupertino_icons: ^1.0.2
+  device_info_plus:
+  dio:
+  dio_cookie_manager:
   flutter:
     sdk: flutter
   flutter_hooks:
@@ -22,6 +25,9 @@ dependencies:
   gap:
   go_router:
   hooks_riverpod: ^2.0.0-dev.9
+  json_annotation:
+  package_info_plus:
+  path_provider:
 
 dev_dependencies:
   build_runner:
@@ -30,6 +36,7 @@ dev_dependencies:
   flutter_lints:
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.1.6
   pedantic_mono:
 
 flutter:
