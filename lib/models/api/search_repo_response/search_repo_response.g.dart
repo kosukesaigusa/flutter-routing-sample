@@ -6,9 +6,9 @@ part of 'search_repo_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_SearchRepoResponse _$$_SearchRepoResponseFromJson(
+_$_SearchReposResponse _$$_SearchReposResponseFromJson(
         Map<String, dynamic> json) =>
-    _$_SearchRepoResponse(
+    _$_SearchReposResponse(
       success: json['success'] as bool? ?? true,
       message: json['message'] as String? ?? '',
       totalCount: json['total_count'] as int? ?? 0,
@@ -19,8 +19,8 @@ _$_SearchRepoResponse _$$_SearchRepoResponseFromJson(
           const <Repo>[],
     );
 
-Map<String, dynamic> _$$_SearchRepoResponseToJson(
-        _$_SearchRepoResponse instance) =>
+Map<String, dynamic> _$$_SearchReposResponseToJson(
+        _$_SearchReposResponse instance) =>
     <String, dynamic>{
       'success': instance.success,
       'message': instance.message,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../providers/search_repos.dart';
+import '../providers/repo.dart';
 
 ///
 final searchReposServiceProvider = Provider.autoDispose(SearchReposService.new);
@@ -10,17 +10,34 @@ final searchReposServiceProvider = Provider.autoDispose(SearchReposService.new);
 class SearchReposService {
   SearchReposService(this._ref);
 
-  // final Reader _read;
   final ProviderRef _ref;
 
   ///
-  void refresh() {
+  void updateSearchWord(String q) {
     _ref.read(isSearchingStateProvider.notifier).update((state) => true);
+    _ref.read(searchWordStateProvider.notifier).update((state) => q);
+    _ref.read(searchPageStateProvider.notifier).update((state) => 1);
     _animateToTop();
     _ref.refresh(searchReposFutureProvider);
   }
 
-  /// ページ切替時に ListView の上までスクロールする
+  ///
+  void showPreviousPage() {
+    _ref.read(isSearchingStateProvider.notifier).update((state) => true);
+    _ref.read(searchPageStateProvider.notifier).update((state) => state - 1);
+    _animateToTop();
+    _ref.refresh(searchReposFutureProvider);
+  }
+
+  ///
+  void showNextPage() {
+    _ref.read(isSearchingStateProvider.notifier).update((state) => true);
+    _ref.read(searchPageStateProvider.notifier).update((state) => state + 1);
+    _animateToTop();
+    _ref.refresh(searchReposFutureProvider);
+  }
+
+  ///
   void _animateToTop() {
     final sc = _ref.read(repoItemsScrollControllerProvider);
     if (!sc.hasClients) {

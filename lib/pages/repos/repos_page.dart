@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/repo/repo.dart';
-import '../../providers/search_repos.dart';
+import '../../providers/repo.dart';
 import '../../services/search_repos.dart';
 import '../../utils/extensions/build_context.dart';
 import '../../utils/extensions/int.dart';
@@ -13,14 +14,25 @@ import '../../widgets/pager.dart';
 import '../../widgets/shimmer.dart';
 
 ///
-class ReposPage extends HookConsumerWidget {
+class ReposPage extends StatefulHookConsumerWidget {
   const ReposPage({super.key});
 
   static const path = '/repos';
   static const name = 'ReposPage';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ReposPage> createState() => _ReposPageState();
+}
+
+class _ReposPageState extends ConsumerState<ReposPage> {
+  @override
+  void dispose() {
+    debugPrint('disposed');
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Repos'),
@@ -69,11 +81,7 @@ class _SearchRepoTextFieldState extends ConsumerState<SearchRepoTextField> {
     return TextField(
       controller: _textEditingController,
       onChanged: (q) => debounce.run(
-        () async {
-          ref.read(searchWordStateProvider.notifier).update((state) => q);
-          ref.read(searchPageStateProvider.notifier).update((state) => 1);
-          ref.read(searchReposServiceProvider).refresh();
-        },
+        () => ref.read(searchReposServiceProvider).updateSearchWord(q),
       ),
       maxLines: 1,
       decoration: const InputDecoration(
@@ -104,12 +112,12 @@ class RepoItemsWidget extends HookConsumerWidget {
                       searchRepoResponse.totalCount ~/ ref.watch(searchPerPageStateProvider) + 1;
                   return ListView.builder(
                     controller: ref.watch(repoItemsScrollControllerProvider),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     itemCount: repos.length + 2,
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
+                          padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -134,14 +142,8 @@ class RepoItemsWidget extends HookConsumerWidget {
                         return PagerWidget(
                           canShowPreviousPage: ref.watch(searchPageStateProvider) > 1,
                           canShowNextPage: ref.watch(searchPageStateProvider) < maxPage,
-                          showPreviousPage: () async {
-                            ref.read(searchPageStateProvider.notifier).update((state) => state - 1);
-                            ref.read(searchReposServiceProvider).refresh();
-                          },
-                          showNextPage: () async {
-                            ref.read(searchPageStateProvider.notifier).update((state) => state + 1);
-                            ref.read(searchReposServiceProvider).refresh();
-                          },
+                          showPreviousPage: ref.read(searchReposServiceProvider).showPreviousPage,
+                          showNextPage: ref.read(searchReposServiceProvider).showNextPage,
                         );
                       } else {
                         return RepoItemWidget(repo: repos[index - 1]);
@@ -188,66 +190,77 @@ class RepoItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const FaIcon(FontAwesomeIcons.github),
-          const Gap(16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: () => context.push(
+        '/repo/KosukeSaigusa/flutter-github-search',
+        // '/repo',
+        // params: <String, String>{
+        //   'owner': repo.owner.login,
+        //   'repo': repo.name,
+        // },
+        extra: repo,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const FaIcon(FontAwesomeIcons.github),
+            const Gap(16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    repo.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.titleLarge,
+                  ),
+                  const Gap(4),
+                  Text(
+                    repo.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.bodySmall,
+                  ),
+                  Text(
+                    'Updated: ${repo.updatedAt.toString().substring(0, 10)}',
+                    style: context.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+            const Gap(8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  repo.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.titleLarge,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.star, size: 12),
+                    const Gap(4),
+                    Text(
+                      repo.starGazersCount.withComma,
+                    ),
+                  ],
                 ),
                 const Gap(4),
-                Text(
-                  repo.description,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.bodySmall,
-                ),
-                Text(
-                  'Updated: ${repo.updatedAt.toString().substring(0, 10)}',
-                  style: context.bodySmall,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const FaIcon(FontAwesomeIcons.codeFork, size: 12),
+                    const Gap(4),
+                    Text(
+                      repo.forksCount.withComma,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          const Gap(8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(Icons.star, size: 12),
-                  const Gap(4),
-                  Text(
-                    repo.starGazersCount.withComma,
-                  ),
-                ],
-              ),
-              const Gap(4),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const FaIcon(FontAwesomeIcons.codeFork, size: 12),
-                  const Gap(4),
-                  Text(
-                    repo.forksCount.withComma,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -260,7 +273,7 @@ class RepoItemShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

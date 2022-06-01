@@ -32,13 +32,13 @@ final searchPerPageStateProvider = StateProvider<int>((ref) {
 ///
 final isSearchingStateProvider = StateProvider.autoDispose<bool>((_) => false);
 
-///
-final searchReposFutureProvider = FutureProvider.autoDispose<SearchRepoResponse>((ref) async {
+/// Search Repositories API をコールして、そのレスポンスを提供する FutureProvider。
+final searchReposFutureProvider = FutureProvider.autoDispose<SearchReposResponse>((ref) async {
   final q = ref.read(searchWordStateProvider);
   final page = ref.read(searchPageStateProvider);
   final perPage = ref.read(searchPerPageStateProvider);
   try {
-    final response = await ref.read(searchReposRepositoryProvider).fetchRepositories(
+    final response = await ref.read(searchRepoRepositoryProvider).searchRepositories(
           q: q,
           page: page,
           perPage: perPage,

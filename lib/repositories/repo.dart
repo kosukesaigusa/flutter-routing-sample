@@ -1,10 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../services/api_client.dart';
+import '../models/api/get_repo_response/get_repo_response.dart';
 import '../models/api/search_repo_response/search_repo_response.dart';
 import '../utils/exceptions/base.dart';
 
-final searchRepoRepositoryProvider = Provider.autoDispose(
+final repoRepositoryProvider = Provider.autoDispose(
   (ref) => RepoRepository(client: ref.read(apiClientProvider)),
 );
 
@@ -31,6 +32,18 @@ class RepoRepository {
     );
     return responseResult.when<SearchReposResponse>(
       success: SearchReposResponse.fromBaseResponseData,
+      failure: (message) => throw AppException(message: message),
+    );
+  }
+
+  /// GET /repos/{owner}/{repo} API をコールして GetRepoResponse を返す。
+  Future<GetRepoResponse> fetchRepo({
+    required String owner,
+    required String repo,
+  }) async {
+    final responseResult = await _client.get('/repos/$owner/$repo');
+    return responseResult.when<GetRepoResponse>(
+      success: GetRepoResponse.fromBaseResponseData,
       failure: (message) => throw AppException(message: message),
     );
   }
