@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../pages/main/main_page.dart';
 import '../pages/not_found/not_found_page.dart';
@@ -7,6 +8,7 @@ import '../pages/repos/repos_page.dart';
 import '../pages/settings/settings_page.dart';
 import '../pages/todo_detail/todo_detail_page.dart';
 import '../pages/todos/todos_page.dart';
+import '../providers/go_router_state.dart';
 
 final goRouter = GoRouter(
   initialLocation: MainPage.path,
@@ -25,7 +27,12 @@ final goRouter = GoRouter(
     ),
     GoRoute(
       path: RepoDetailPage.path,
-      builder: (context, state) => const RepoDetailPage(),
+      builder: (context, state) {
+        return ProviderScope(
+          overrides: <Override>[goRouterStateProvider.overrideWithValue(state)],
+          child: const RepoDetailPage(),
+        );
+      },
     ),
     GoRoute(
       path: TodosPage.path,

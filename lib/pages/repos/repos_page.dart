@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/repo/repo.dart';
-import '../../providers/search_repos.dart';
+import '../../providers/repo.dart';
 import '../../services/search_repos.dart';
 import '../../utils/extensions/build_context.dart';
 import '../../utils/extensions/int.dart';
@@ -50,34 +51,6 @@ class _ReposPageState extends ConsumerState<ReposPage> {
     );
   }
 }
-
-///
-// class ReposPage extends HookConsumerWidget {
-//   const ReposPage({super.key});
-
-//   static const path = '/repos';
-//   static const name = 'ReposPage';
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Repos'),
-//       ),
-//       body: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: const [
-//           Gap(16),
-//           Padding(
-//             padding: EdgeInsets.symmetric(horizontal: 16),
-//             child: SearchRepoTextField(),
-//           ),
-//           RepoItemsWidget(),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 ///
 class SearchRepoTextField extends StatefulHookConsumerWidget {
@@ -218,7 +191,15 @@ class RepoItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async {},
+      onTap: () => context.push(
+        '/repo/KosukeSaigusa/flutter-github-search',
+        // '/repo',
+        // params: <String, String>{
+        //   'owner': repo.owner.login,
+        //   'repo': repo.name,
+        // },
+        extra: repo,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(

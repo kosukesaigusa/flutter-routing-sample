@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../providers/search_repos.dart';
+import '../providers/repo.dart';
 
 ///
 final searchReposServiceProvider = Provider.autoDispose(SearchReposService.new);
