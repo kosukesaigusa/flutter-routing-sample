@@ -7,7 +7,7 @@ import '../../routes/bottom_tab.dart';
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});
 
-  static const path = '/foo/';
+  static const path = '/';
   static const name = 'MainPage';
 
   @override
