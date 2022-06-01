@@ -7,6 +7,7 @@ part 'owner.g.dart';
 class Owner with _$Owner {
   const factory Owner({
     required int id,
+    required String login,
     @Default('') @JsonKey(name: 'avatar_url') String avatarUrl,
     @Default('') @JsonKey(name: 'html_url') String htmlUrl,
   }) = _Owner;

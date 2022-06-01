@@ -21,6 +21,7 @@ Owner _$OwnerFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Owner {
   int get id => throw _privateConstructorUsedError;
+  String get login => throw _privateConstructorUsedError;
   @JsonKey(name: 'avatar_url')
   String get avatarUrl => throw _privateConstructorUsedError;
   @JsonKey(name: 'html_url')
@@ -37,6 +38,7 @@ abstract class $OwnerCopyWith<$Res> {
       _$OwnerCopyWithImpl<$Res>;
   $Res call(
       {int id,
+      String login,
       @JsonKey(name: 'avatar_url') String avatarUrl,
       @JsonKey(name: 'html_url') String htmlUrl});
 }
@@ -52,6 +54,7 @@ class _$OwnerCopyWithImpl<$Res> implements $OwnerCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
+    Object? login = freezed,
     Object? avatarUrl = freezed,
     Object? htmlUrl = freezed,
   }) {
@@ -60,6 +63,10 @@ class _$OwnerCopyWithImpl<$Res> implements $OwnerCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      login: login == freezed
+          ? _value.login
+          : login // ignore: cast_nullable_to_non_nullable
+              as String,
       avatarUrl: avatarUrl == freezed
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
@@ -79,6 +86,7 @@ abstract class _$$_OwnerCopyWith<$Res> implements $OwnerCopyWith<$Res> {
   @override
   $Res call(
       {int id,
+      String login,
       @JsonKey(name: 'avatar_url') String avatarUrl,
       @JsonKey(name: 'html_url') String htmlUrl});
 }
@@ -95,6 +103,7 @@ class __$$_OwnerCopyWithImpl<$Res> extends _$OwnerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? login = freezed,
     Object? avatarUrl = freezed,
     Object? htmlUrl = freezed,
   }) {
@@ -103,6 +112,10 @@ class __$$_OwnerCopyWithImpl<$Res> extends _$OwnerCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
+      login: login == freezed
+          ? _value.login
+          : login // ignore: cast_nullable_to_non_nullable
+              as String,
       avatarUrl: avatarUrl == freezed
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
@@ -120,6 +133,7 @@ class __$$_OwnerCopyWithImpl<$Res> extends _$OwnerCopyWithImpl<$Res>
 class _$_Owner implements _Owner {
   const _$_Owner(
       {required this.id,
+      required this.login,
       @JsonKey(name: 'avatar_url') this.avatarUrl = '',
       @JsonKey(name: 'html_url') this.htmlUrl = ''});
 
@@ -129,6 +143,8 @@ class _$_Owner implements _Owner {
   @override
   final int id;
   @override
+  final String login;
+  @override
   @JsonKey(name: 'avatar_url')
   final String avatarUrl;
   @override
@@ -137,7 +153,7 @@ class _$_Owner implements _Owner {
 
   @override
   String toString() {
-    return 'Owner(id: $id, avatarUrl: $avatarUrl, htmlUrl: $htmlUrl)';
+    return 'Owner(id: $id, login: $login, avatarUrl: $avatarUrl, htmlUrl: $htmlUrl)';
   }
 
   @override
@@ -146,6 +162,7 @@ class _$_Owner implements _Owner {
         (other.runtimeType == runtimeType &&
             other is _$_Owner &&
             const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.login, login) &&
             const DeepCollectionEquality().equals(other.avatarUrl, avatarUrl) &&
             const DeepCollectionEquality().equals(other.htmlUrl, htmlUrl));
   }
@@ -155,6 +172,7 @@ class _$_Owner implements _Owner {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(login),
       const DeepCollectionEquality().hash(avatarUrl),
       const DeepCollectionEquality().hash(htmlUrl));
 
@@ -172,6 +190,7 @@ class _$_Owner implements _Owner {
 abstract class _Owner implements Owner {
   const factory _Owner(
       {required final int id,
+      required final String login,
       @JsonKey(name: 'avatar_url') final String avatarUrl,
       @JsonKey(name: 'html_url') final String htmlUrl}) = _$_Owner;
 
@@ -179,6 +198,8 @@ abstract class _Owner implements Owner {
 
   @override
   int get id => throw _privateConstructorUsedError;
+  @override
+  String get login => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'avatar_url')
   String get avatarUrl => throw _privateConstructorUsedError;
