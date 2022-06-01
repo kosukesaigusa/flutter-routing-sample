@@ -32,6 +32,8 @@ mixin _$Repo {
   int get starGazersCount => throw _privateConstructorUsedError;
   @JsonKey(name: 'forks_count')
   int get forksCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'watchers_count')
+  int get watchersCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +52,8 @@ abstract class $RepoCopyWith<$Res> {
       String description,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'stargazers_count') int starGazersCount,
-      @JsonKey(name: 'forks_count') int forksCount});
+      @JsonKey(name: 'forks_count') int forksCount,
+      @JsonKey(name: 'watchers_count') int watchersCount});
 
   $OwnerCopyWith<$Res> get owner;
 }
@@ -73,6 +76,7 @@ class _$RepoCopyWithImpl<$Res> implements $RepoCopyWith<$Res> {
     Object? updatedAt = freezed,
     Object? starGazersCount = freezed,
     Object? forksCount = freezed,
+    Object? watchersCount = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -107,6 +111,10 @@ class _$RepoCopyWithImpl<$Res> implements $RepoCopyWith<$Res> {
           ? _value.forksCount
           : forksCount // ignore: cast_nullable_to_non_nullable
               as int,
+      watchersCount: watchersCount == freezed
+          ? _value.watchersCount
+          : watchersCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 
@@ -131,7 +139,8 @@ abstract class _$$_RepoCopyWith<$Res> implements $RepoCopyWith<$Res> {
       String description,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'stargazers_count') int starGazersCount,
-      @JsonKey(name: 'forks_count') int forksCount});
+      @JsonKey(name: 'forks_count') int forksCount,
+      @JsonKey(name: 'watchers_count') int watchersCount});
 
   @override
   $OwnerCopyWith<$Res> get owner;
@@ -156,6 +165,7 @@ class __$$_RepoCopyWithImpl<$Res> extends _$RepoCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? starGazersCount = freezed,
     Object? forksCount = freezed,
+    Object? watchersCount = freezed,
   }) {
     return _then(_$_Repo(
       id: id == freezed
@@ -190,6 +200,10 @@ class __$$_RepoCopyWithImpl<$Res> extends _$RepoCopyWithImpl<$Res>
           ? _value.forksCount
           : forksCount // ignore: cast_nullable_to_non_nullable
               as int,
+      watchersCount: watchersCount == freezed
+          ? _value.watchersCount
+          : watchersCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -205,7 +219,8 @@ class _$_Repo implements _Repo {
       this.description = '',
       @JsonKey(name: 'updated_at') required this.updatedAt,
       @JsonKey(name: 'stargazers_count') this.starGazersCount = 0,
-      @JsonKey(name: 'forks_count') this.forksCount = 0});
+      @JsonKey(name: 'forks_count') this.forksCount = 0,
+      @JsonKey(name: 'watchers_count') this.watchersCount = 0});
 
   factory _$_Repo.fromJson(Map<String, dynamic> json) => _$$_RepoFromJson(json);
 
@@ -230,10 +245,13 @@ class _$_Repo implements _Repo {
   @override
   @JsonKey(name: 'forks_count')
   final int forksCount;
+  @override
+  @JsonKey(name: 'watchers_count')
+  final int watchersCount;
 
   @override
   String toString() {
-    return 'Repo(id: $id, name: $name, owner: $owner, htmlUrl: $htmlUrl, description: $description, updatedAt: $updatedAt, starGazersCount: $starGazersCount, forksCount: $forksCount)';
+    return 'Repo(id: $id, name: $name, owner: $owner, htmlUrl: $htmlUrl, description: $description, updatedAt: $updatedAt, starGazersCount: $starGazersCount, forksCount: $forksCount, watchersCount: $watchersCount)';
   }
 
   @override
@@ -251,7 +269,9 @@ class _$_Repo implements _Repo {
             const DeepCollectionEquality()
                 .equals(other.starGazersCount, starGazersCount) &&
             const DeepCollectionEquality()
-                .equals(other.forksCount, forksCount));
+                .equals(other.forksCount, forksCount) &&
+            const DeepCollectionEquality()
+                .equals(other.watchersCount, watchersCount));
   }
 
   @JsonKey(ignore: true)
@@ -265,7 +285,8 @@ class _$_Repo implements _Repo {
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(updatedAt),
       const DeepCollectionEquality().hash(starGazersCount),
-      const DeepCollectionEquality().hash(forksCount));
+      const DeepCollectionEquality().hash(forksCount),
+      const DeepCollectionEquality().hash(watchersCount));
 
   @JsonKey(ignore: true)
   @override
@@ -287,7 +308,8 @@ abstract class _Repo implements Repo {
       final String description,
       @JsonKey(name: 'updated_at') required final DateTime updatedAt,
       @JsonKey(name: 'stargazers_count') final int starGazersCount,
-      @JsonKey(name: 'forks_count') final int forksCount}) = _$_Repo;
+      @JsonKey(name: 'forks_count') final int forksCount,
+      @JsonKey(name: 'watchers_count') final int watchersCount}) = _$_Repo;
 
   factory _Repo.fromJson(Map<String, dynamic> json) = _$_Repo.fromJson;
 
@@ -311,6 +333,9 @@ abstract class _Repo implements Repo {
   @override
   @JsonKey(name: 'forks_count')
   int get forksCount => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(name: 'watchers_count')
+  int get watchersCount => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_RepoCopyWith<_$_Repo> get copyWith => throw _privateConstructorUsedError;

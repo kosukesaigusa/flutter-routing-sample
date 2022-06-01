@@ -16,6 +16,7 @@ class Repo with _$Repo {
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
     @Default(0) @JsonKey(name: 'stargazers_count') int starGazersCount,
     @Default(0) @JsonKey(name: 'forks_count') int forksCount,
+    @Default(0) @JsonKey(name: 'watchers_count') int watchersCount,
   }) = _Repo;
 
   factory Repo.fromJson(Map<String, dynamic> json) => _$RepoFromJson(json);

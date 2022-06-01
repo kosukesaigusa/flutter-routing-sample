@@ -15,6 +15,7 @@ _$_Repo _$$_RepoFromJson(Map<String, dynamic> json) => _$_Repo(
       updatedAt: DateTime.parse(json['updated_at'] as String),
       starGazersCount: json['stargazers_count'] as int? ?? 0,
       forksCount: json['forks_count'] as int? ?? 0,
+      watchersCount: json['watchers_count'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$_RepoToJson(_$_Repo instance) => <String, dynamic>{
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$_RepoToJson(_$_Repo instance) => <String, dynamic>{
       'updated_at': instance.updatedAt.toIso8601String(),
       'stargazers_count': instance.starGazersCount,
       'forks_count': instance.forksCount,
+      'watchers_count': instance.watchersCount,
     };
