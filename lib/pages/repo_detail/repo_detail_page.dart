@@ -26,6 +26,7 @@ final repoFutureProvider = FutureProvider.autoDispose<Repo>(
       throw const AppException(message: 'Not found.');
     }
   },
+  // TODO: dependencies の必要性・意味について調べる
   dependencies: [goRouterStateProvider],
 );
 
