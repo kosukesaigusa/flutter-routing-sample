@@ -9,6 +9,21 @@ import '../../utils/exceptions/base.dart';
 /// state.extra に Repo インスタンスが見つかればすぐにそれを、
 /// 見つからなければ state.params の情報をもとに通信をして Repo インスタンスを取得する
 /// FutureProvider。
+///
+/// dependencies パラメータについては、次のような説明が公式ドキュメントの ChangeLog に書いてある。
+/// https://pub.dev/packages/riverpod/versions/2.0.0-dev.9/changelog
+///
+/// All providers now come with an extra named parameter called dependencies.
+/// This parameter optionally allows defining the list of providers/families that this new provider depends on:
+///
+/// ```dart
+/// final a = Provider(...);
+/// final b = Provider((ref) => ref.watch(a), dependencies: [a]);
+/// ```
+/// By doing so, this will tell Riverpod to automatically override b if a gets overridden.
+///
+/// つまり、`dependencies` に `a` という Provider を指定していれば、`a` がオーバーライドされている
+/// ときに、`b` が依存している `a` をそのようにオーバーライドした状態で使用できるようになるとういこと。
 final repoFutureProvider = FutureProvider.autoDispose<Repo>(
   (ref) async {
     try {
@@ -26,7 +41,6 @@ final repoFutureProvider = FutureProvider.autoDispose<Repo>(
       throw const AppException(message: 'Not found.');
     }
   },
-  // TODO: dependencies の必要性・意味について調べる
   dependencies: [goRouterStateProvider],
 );
 
